@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wesele Ilony i Michała</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+   <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      font-family: 'Open Sans', sans-serif;
+      background: linear-gradient(to bottom, #fdf6ef, #f0e3d1);
+      color: #4e342e;
+      scroll-behavior: smooth;
+      overflow-x: hidden;
+    }
+#zdjecia {
+  text-align: center;
+  padding: 40px 20px;
+}
+#menu {
+  text-align: center;
+  padding: 40px 20px;
+}
+
+#menu h2 {
+  margin-bottom: 20px;
+}
+
+#menu p {
+  font-size: 1.1rem;
+  margin: 10px 0;
+}
+
+#timer {
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: #4e342e;
+  margin-bottom: 20px;
+}
+
+.upload-btn {
+  display: inline-block;
+  background-color: #4e342e;
+  color: white;
+  padding: 12px 24px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-size: 1.1rem;
+  transition: background-color 0.3s ease;
+}
+
+.upload-btn:hover {
+  background-color: #3e2a20;
+}
+
+    header {
+      background: url('baner.jpg') no-repeat center/cover;
+      text-align: center;
+      padding: 120px 20px;
+      color: #fff;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+      animation: fadeIn 2s ease-out;
+    }
+    header h1 {
+      font-family: 'Great Vibes', cursive;
+      font-size: 56px;
+      margin: 0;
+    }
+    nav {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      background-color: rgba(210, 180, 140, 0.9);
+      padding: 15px;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      backdrop-filter: blur(5px);
+    }
+    nav a {
+      text-decoration: none;
+      color: #fff;
+      background-color: #8d6e63;
+      padding: 10px 20px;
+      border-radius: 25px;
+      font-weight: bold;
+      transition: all 0.3s ease;
+    }
+    nav a:hover {
+      background-color: #bcaaa4;
+      transform: scale(1.05);
+    }
+    section {
+      padding: 60px 20px;
+      max-width: 1000px;
+      margin: auto;
+      animation: fadeInUp 1s ease both;
+    }
+    h2 {
+      font-family: 'Great Vibes', cursive;
+      font-size: 42px;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    iframe {
+      border-radius: 20px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    input[type="text"] {
+      display: block;
+      margin: 0 auto 20px auto;
+      padding: 10px;
+      width: 80%;
+      max-width: 400px;
+      border-radius: 20px;
+      border: 1px solid #ccc;
+    }
+    .guest-result {
+      text-align: center;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+    .seating-svg {
+      display: block;
+  margin: 0 auto;
+  max-width: 100%;
+  height: auto;
+    }
+    .seating-svg:hover {
+      transform: scale(1.02);
+    }
+    .seat {
+      fill: #d2b48c;
+      stroke: #4e342e;
+      stroke-width: 1;
+      transition: fill 0.3s;
+      cursor: pointer;
+    }
+    .seat.highlight {
+      fill: gold;
+      stroke: darkorange;
+    }
+    .seat-label {
+      font-size: 10px;
+      text-anchor: middle;
+      fill: #4e342e;
+    }
+    .upload-btn {
+      display: inline-block;
+      margin-top: 20px;
+      background-color: #a1887f;
+      color: #fff;
+      padding: 15px 30px;
+      border-radius: 30px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: all 0.3s ease;
+    }
+    .upload-btn:hover {
+      background-color: #bcaaa4;
+      transform: scale(1.05);
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+      line-height: 2;
+      text-align: center;
+    }
+    #timer {
+      font-size: 18px;
+      text-align: center;
+      margin-top: 20px;
+      font-weight: bold;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+#seating {
+  text-align: center;
+}
+.table-circle {
+  fill: #fdf6ef;
+  stroke: #8d6e63;
+  stroke-width: 3;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+  transition: all 0.3s ease;
+}
+.table-label {
+  fill: #6d4c41;
+  font-size: 20px;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: bold;
+  text-anchor: middle;
+  pointer-events: none;
+}
+.table {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 0.8s ease forwards;
+}
+
+.table:nth-of-type(1) { animation-delay: 0.2s; }
+.table:nth-of-type(2) { animation-delay: 0.4s; }
+.table:nth-of-type(3) { animation-delay: 0.6s; }
+.table:nth-of-type(4) { animation-delay: 0.8s; }
+.table:nth-of-type(5) { animation-delay: 1s; }
+.table:nth-of-type(6) { animation-delay: 1.2s; }
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.cards-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.card {
+  background: linear-gradient(to bottom right, #fff8f0, #f3e2d3);
+  border-radius: 20px;
+  padding: 20px 30px;
+  min-width: 240px;
+  text-align: center;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  animation: fadeInUp 0.6s ease both;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+.card-time {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #6d4c41;
+  margin-bottom: 10px;
+}
+
+.card-desc {
+  font-size: 1.1rem;
+  color: #5d4037;
+}
+
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Wesele Ilony i Michała</h1>
+  </header>
+
+  <nav>
+    <a href="#dojazd">Dojazd</a>
+    <a href="#seating">Plan stołów</a>
+    <a href="#menu">Menu</a>
+    <a href="#plan">Plan Wesela</a>
+    <a href="#zdjecia">Udostępnij zdjęcia</a>
+  </nav>
+
+<section id="dojazd">
+  <h2>Jak dojechać na nasze wesele?</h2>
+  <iframe 
+    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2448.2989922077554!2d21.25547151579672!3d51.30017977960379!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47185fd87c3aaf9f%3A0x295250f5eaaecbd4!2sJuliusza%20S%C5%82owackiego%2084%2C%2026-640%20Skaryszew!5e0!3m2!1spl!2spl!4v1720590000000!5m2!1spl!2spl" 
+    width="100%" 
+    height="300" 
+    style="border:0; border-radius: 20px;" 
+    allowfullscreen="" 
+    loading="lazy" 
+    referrerpolicy="no-referrer-when-downgrade">
+  </iframe>
+</section>
+
+  <section id="seating">
+  <h2>Twoje miejsce przy stole</h2>
+  <input type="text" id="guestName" placeholder="Wpisz swoje imię i nazwisko">
+  <div class="guest-result" id="guestResult"></div>
+ <svg viewBox="0 0 900 500" class="seating-svg" id="seatingSvg">
+
+  <!-- Rząd 1 -->
+  <g class="table">
+    <circle cx="150" cy="150" r="40" class="table-circle"/>
+    <text x="150" y="155" class="table-label">1</text>
+    <circle cx="110" cy="150" r="10" class="seat" data-guest="Adrian" />
+    <circle cx="150" cy="110" r="10" class="seat" data-guest="Natalia" />
+    <circle cx="190" cy="150" r="10" class="seat" data-guest="Piotr" />
+    <circle cx="150" cy="190" r="10" class="seat" data-guest="Magda" />
+  </g>
+
+  <g class="table">
+    <circle cx="450" cy="150" r="40" class="table-circle"/>
+    <text x="450" y="155" class="table-label">2</text>
+    <circle cx="410" cy="150" r="10" class="seat" data-guest="Kuba" />
+    <circle cx="450" cy="110" r="10" class="seat" data-guest="Ola" />
+    <circle cx="490" cy="150" r="10" class="seat" data-guest="Tomek" />
+    <circle cx="450" cy="190" r="10" class="seat" data-guest="Basia" />
+  </g>
+
+  <g class="table">
+    <circle cx="750" cy="150" r="40" class="table-circle"/>
+    <text x="750" y="155" class="table-label">3</text>
+    <circle cx="710" cy="150" r="10" class="seat" data-guest="Kasia" />
+    <circle cx="750" cy="110" r="10" class="seat" data-guest="Paweł" />
+    <circle cx="790" cy="150" r="10" class="seat" data-guest="Ania" />
+    <circle cx="750" cy="190" r="10" class="seat" data-guest="Mateusz" />
+  </g>
+
+  <!-- Rząd 2 -->
+  <g class="table">
+    <circle cx="150" cy="400" r="40" class="table-circle"/>
+    <text x="150" y="405" class="table-label">4</text>
+    <circle cx="110" cy="400" r="10" class="seat" data-guest="Jacek" />
+    <circle cx="150" cy="360" r="10" class="seat" data-guest="Julia" />
+    <circle cx="190" cy="400" r="10" class="seat" data-guest="Bartek" />
+    <circle cx="150" cy="440" r="10" class="seat" data-guest="Zosia" />
+  </g>
+
+  <g class="table">
+    <circle cx="450" cy="400" r="40" class="table-circle"/>
+    <text x="450" y="405" class="table-label">5</text>
+    <circle cx="410" cy="400" r="10" class="seat" data-guest="Marcin" />
+    <circle cx="450" cy="360" r="10" class="seat" data-guest="Dorota" />
+    <circle cx="490" cy="400" r="10" class="seat" data-guest="Ewa" />
+    <circle cx="450" cy="440" r="10" class="seat" data-guest="Rafał" />
+  </g>
+
+  <g class="table">
+    <circle cx="750" cy="400" r="40" class="table-circle"/>
+    <text x="750" y="405" class="table-label">6</text>
+    <circle cx="710" cy="400" r="10" class="seat" data-guest="Iwona" />
+    <circle cx="750" cy="360" r="10" class="seat" data-guest="Kamil" />
+    <circle cx="790" cy="400" r="10" class="seat" data-guest="Lena" />
+    <circle cx="750" cy="440" r="10" class="seat" data-guest="Grzegorz" />
+  </g>
+
+</svg>
+
+</section>
+
+  <section id="menu">
+  <h2>Menu</h2>
+  <p id="timer"></p>
+  <div class="cards-container">
+    <div class="card">
+      <div class="card-time">🥣 14:00</div>
+      <div class="card-desc">Zupa krem z dyni</div>
+    </div>
+    <div class="card">
+      <div class="card-time">🍽️ 15:00</div>
+      <div class="card-desc">Polędwiczki w sosie śmietanowym</div>
+    </div>
+    <div class="card">
+      <div class="card-time">🎂 19:00</div>
+      <div class="card-desc">Tort weselny</div>
+    </div>
+  </div>
+</section>
+
+<section id="plan">
+  <h2>Plan Wesela</h2>
+  <div class="cards-container">
+    <div class="card">
+      <div class="card-time">👋 17:00</div>
+      <div class="card-desc">Powitanie gości</div>
+    </div>
+    <div class="card">
+      <div class="card-time">💃 18:00</div>
+      <div class="card-desc">Pierwszy taniec</div>
+    </div>
+    <div class="card">
+      <div class="card-time">🎂 20:00</div>
+      <div class="card-desc">Krojenie tortu</div>
+    </div>
+    <div class="card">
+      <div class="card-time">🎉 23:00</div>
+      <div class="card-desc">Oczepiny</div>
+    </div>
+  </div>
+</section>
+
+
+  <section id="zdjecia">
+    <h2>Podziel się wspomnieniami</h2>
+    <a href="#" class="upload-btn">Prześlij zdjęcia i filmy</a>
+  </section>
+
+<script>
+  // Animowane przewijanie do sekcji
+  document.querySelectorAll('nav a[href^="#"]').forEach(link => {
+    link.addEventListener('click', function (e) {
+      e.preventDefault(); // Blokuj domyślną akcję linku
+
+      const targetId = this.getAttribute('href').substring(1);
+      const targetElement = document.getElementById(targetId);
+
+      if (targetElement) {
+        window.scrollTo({
+          top: targetElement.offsetTop - 60, // odejmij wysokość menu, jeśli chcesz
+          behavior: 'smooth'
+        });
+      }
+    });
+  });
+
+  const guestToSeatMap = {
+    "Adrian": "Adrian",
+    "Natalia": "Natalia",
+    "Piotr": "Piotr",
+    "Magda": "Magda",
+    "Kuba": "Kuba",
+    "Ola": "Ola",
+    "Tomek": "Tomek",
+    "Basia": "Basia",
+    "Kasia": "Kasia",
+    "Paweł": "Paweł",
+    "Ania": "Ania",
+    "Mateusz": "Mateusz",
+    "Jacek": "Jacek",
+    "Julia": "Julia",
+    "Bartek": "Bartek",
+    "Zosia": "Zosia",
+    "Marcin": "Marcin",
+    "Dorota": "Dorota",
+    "Ewa": "Ewa",
+    "Rafał": "Rafał",
+    "Iwona": "Iwona",
+    "Kamil": "Kamil",
+    "Lena": "Lena",
+    "Grzegorz": "Grzegorz"
+  };
+
+  const result = document.getElementById('guestResult');
+  const seatingSvg = document.getElementById('seatingSvg');
+
+  document.getElementById('guestName').addEventListener('input', function () {
+    const name = this.value.trim();
+    const allSeats = document.querySelectorAll('.seat');
+    allSeats.forEach(seat => seat.classList.remove('highlight'));
+
+    if (guestToSeatMap[name]) {
+      result.textContent = `Twoje miejsce przy stole zostało zaznaczone.`;
+      const seat = document.querySelector(`.seat[data-guest='${guestToSeatMap[name]}']`);
+      if (seat) {
+        seat.classList.add('highlight');
+        // Scroll do SVG z animacją
+        seatingSvg.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+    } else {
+      result.textContent = name ? "Nie znaleziono na liście." : "";
+    }
+  });
+
+  document.querySelectorAll('.seat').forEach(seat => {
+    seat.addEventListener('click', () => {
+      document.querySelectorAll('.seat').forEach(s => s.classList.remove('highlight'));
+      seat.classList.add('highlight');
+      const guest = seat.dataset.guest;
+      result.textContent = guest ? `Udanej zabawy ${guest}! Twoje miejsce jest podświetlone` : `To miejsce nie jest przypisane.`;
+    });
+  });
+
+    // Timer do najbliższego dania
+    const meals = [
+      { time: "14:00", label: "Zupa krem z dyni" },
+      { time: "15:00", label: "Polędwiczki" },
+      { time: "18:00", label: "Tort weselny" }
+    ];
+
+    function updateTimer() {
+      const now = new Date();
+      const nowHours = now.getHours();
+      const nowMinutes = now.getMinutes();
+      const nowTotal = nowHours * 60 + nowMinutes;
+      const upcoming = meals.find(m => {
+        const [h, m_] = m.time.split(":").map(Number);
+        return (h * 60 + m_) > nowTotal;
+      });
+
+      const timer = document.getElementById("timer");
+      if (upcoming) {
+        const [h, m_] = upcoming.time.split(":" ).map(Number);
+        const target = new Date();
+        target.setHours(h);
+        target.setMinutes(m_);
+        target.setSeconds(0);
+        const diff = target - now;
+        const mins = Math.floor(diff / 60000);
+        const secs = Math.floor((diff % 60000) / 1000);
+        timer.textContent = `Posiłek który zostanie podany za około ${mins} minut to ${upcoming.label}`;
+      } else {
+        timer.textContent = "Wszystkie dania zostały już podane. Smacznego!";
+      }
+    }
+
+    setInterval(updateTimer, 1000);
+    updateTimer();
+  </script>
+</body>
+</html>
