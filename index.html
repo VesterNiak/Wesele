@@ -8,6 +8,135 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
    <style>
+   .fullscreen-menu.exit {
+  transform: translateY(-100%);
+  opacity: 0;
+  transition: transform 0.5s ease, opacity 0.5s ease;
+  pointer-events: none;
+}
+@media (max-width: 768px) {
+  .menu-toggle {
+    display: flex;
+  }
+
+  nav {
+    display: none !important;
+  }
+}
+
+.menu-toggle {
+  width: 40px;
+  height: 40px;
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1002;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  overflow: visible;
+  opacity: 0;
+  animation: fadeInTop 1s ease forwards;
+}
+
+@keyframes fadeInTop {
+  from {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.menu-toggle span {
+  display: block;
+  width: 30px;
+  height: 4px;
+  background-color: #fff;
+  border-radius: 2px;
+  transition: all 0.4s ease;
+}
+
+.menu-toggle.open span:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 5px);
+}
+
+.menu-toggle.open span:nth-child(2) {
+  opacity: 0;
+}
+
+.menu-toggle.open span:nth-child(3) {
+  transform: rotate(-45deg) translate(5px, -5px);
+}
+
+/* Nowa animacja menu */
+.fullscreen-menu {
+  transform: translateY(-100%);
+  opacity: 0;
+  transition: transform 0.5s ease, opacity 0.5s ease;
+}
+
+.fullscreen-menu.active {
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.menu-toggle.open {
+  transform: rotate(90deg);
+}
+
+.fullscreen-menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(210, 180, 140, 0.97);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+  z-index: 1000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+
+.fullscreen-menu.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.fullscreen-menu a {
+  font-size: 24px;
+  color: white;
+  text-decoration: none;
+  background: #6d4c41;
+  padding: 15px 30px;
+  border-radius: 20px;
+  transition: transform 0.3s ease;
+}
+
+.fullscreen-menu a:hover {
+  transform: scale(1.1);
+}
+
+/* Hide original nav after scroll */
+nav.hide {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
     * {
       box-sizing: border-box;
     }
@@ -133,9 +262,7 @@
   max-width: 100%;
   height: auto;
     }
-    .seating-svg:hover {
-      
-    }
+
     .seat {
       fill: #d2b48c;
       stroke: #4e342e;
@@ -152,32 +279,11 @@
       text-anchor: middle;
       fill: #4e342e;
     }
-    .upload-btn {
-      display: inline-block;
-      margin-top: 20px;
-      background-color: #a1887f;
-      color: #fff;
-      padding: 15px 30px;
-      border-radius: 30px;
-      text-decoration: none;
-      font-weight: bold;
-      transition: all 0.3s ease;
-    }
-    .upload-btn:hover {
-      background-color: #bcaaa4;
-      transform: scale(1.05);
-    }
     ul {
       list-style: none;
       padding: 0;
       line-height: 2;
       text-align: center;
-    }
-    #timer {
-      font-size: 18px;
-      text-align: center;
-      margin-top: 20px;
-      font-weight: bold;
     }
     @keyframes fadeIn {
       from { opacity: 0; }
@@ -271,7 +377,11 @@
   <header>
     <h1>Wesele Ilony i Michała</h1>
   </header>
-
+<button id="menuToggle" class="menu-toggle">
+  <span></span>
+  <span></span>
+  <span></span>
+</button>
   <nav>
     <a href="#dojazd">Dojazd do sali</a>
     <a href="#seating">Układ siedzeń</a>
@@ -279,6 +389,13 @@
     <a href="#plan">Plan wieczoru</a>
     <a href="#zdjecia">Tu wrzuć zdjęcia z wesela!</a>
   </nav>
+<div class="fullscreen-menu" id="fullscreenMenu">
+  <a href="#dojazd">Dojazd do sali</a>
+  <a href="#seating">Układ siedzeń</a>
+  <a href="#menu">Menu</a>
+  <a href="#plan">Plan wieczoru</a>
+  <a href="#zdjecia">Tu wrzuć zdjęcia z wesela!</a>
+</div>
 
 <section id="dojazd">
   <h2>Jak dojechać na nasze wesele?</h2>
@@ -467,6 +584,7 @@
         // Scroll do SVG z animacją
         const yOffset = -100; // dopasuj w razie potrzeby, np. -80 lub -120
 const y = seatingSvg.getBoundingClientRect().top + window.pageYOffset + yOffset;
+window.scrollTo({ top: y, behavior: 'smooth' });
       }
     } else {
       result.textContent = name ? "Nie znaleziono na liście." : "";
@@ -518,5 +636,88 @@ const y = seatingSvg.getBoundingClientRect().top + window.pageYOffset + yOffset;
     setInterval(updateTimer, 1000);
     updateTimer();
   </script>
+  <script>
+  const menuToggle = document.getElementById('menuToggle');
+  const fullscreenMenu = document.getElementById('fullscreenMenu');
+  const nav = document.querySelector('nav');
+
+  // Pokazuj hamburger po scrollu
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 100) {
+      nav.classList.add('hide');
+      menuToggle.style.display = 'block';
+    } else {
+      nav.classList.remove('hide');
+      menuToggle.style.display = 'none';
+      fullscreenMenu.classList.remove('active');
+      menuToggle.classList.remove('open');
+    }
+  });
+
+  // Obsługa kliknięcia hamburgera
+  menuToggle.addEventListener('click', () => {
+    fullscreenMenu.classList.toggle('active');
+    menuToggle.classList.toggle('open');
+  });
+
+  // Zamykanie menu po kliknięciu w link
+  document.querySelectorAll('.fullscreen-menu a').forEach(link => {
+    link.addEventListener('click', () => {
+      fullscreenMenu.classList.remove('active');
+      menuToggle.classList.remove('open');
+    });
+  });
+</script>
+<script>
+  const menuToggle = document.getElementById('menuToggle');
+  const fullscreenMenu = document.getElementById('fullscreenMenu');
+
+  menuToggle.addEventListener('click', () => {
+    fullscreenMenu.classList.toggle('active');
+    menuToggle.classList.toggle('open');
+  });
+
+  // Automatyczne zamykanie menu po kliknięciu linku
+  document.querySelectorAll('.fullscreen-menu a').forEach(link => {
+    link.addEventListener('click', () => {
+      fullscreenMenu.classList.remove('active');
+      menuToggle.classList.remove('open');
+    });
+  });
+</script>
+<script>
+  const menuToggle = document.getElementById("menuToggle");
+  const fullscreenMenu = document.getElementById("fullscreenMenu");
+
+  menuToggle.addEventListener("click", () => {
+    menuToggle.classList.toggle("open");
+    fullscreenMenu.classList.toggle("active");
+  });
+</script>
+<script>
+const menuToggle = document.getElementById('menuToggle');
+const fullscreenMenu = document.getElementById('fullscreenMenu');
+
+menuToggle.addEventListener('click', () => {
+  const isOpen = menuToggle.classList.contains('open');
+
+  if (!isOpen) {
+    // Otwórz menu
+    menuToggle.classList.add('open');
+    fullscreenMenu.classList.remove('exit');
+    fullscreenMenu.classList.add('active');
+  } else {
+    // Zamknij menu z animacją
+    menuToggle.classList.remove('open');
+    fullscreenMenu.classList.remove('active');
+    fullscreenMenu.classList.add('exit');
+
+    // Po zakończeniu animacji, usuń klasę exit
+    setTimeout(() => {
+      fullscreenMenu.classList.remove('exit');
+    }, 500); // czas zgodny z transition: 0.5s
+  }
+});
+</script>
 </body>
 </html>
