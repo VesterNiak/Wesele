@@ -467,7 +467,6 @@
         // Scroll do SVG z animacją
         const yOffset = -100; // dopasuj w razie potrzeby, np. -80 lub -120
 const y = seatingSvg.getBoundingClientRect().top + window.pageYOffset + yOffset;
-window.scrollTo({ top: y, behavior: 'smooth' });
       }
     } else {
       result.textContent = name ? "Nie znaleziono na liście." : "";
