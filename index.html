@@ -134,7 +134,7 @@
   height: auto;
     }
     .seating-svg:hover {
-      transform: scale(1.02);
+      
     }
     .seat {
       fill: #d2b48c;
@@ -273,11 +273,11 @@
   </header>
 
   <nav>
-    <a href="#dojazd">Dojazd</a>
-    <a href="#seating">Plan stołów</a>
+    <a href="#dojazd">Dojazd do sali</a>
+    <a href="#seating">Układ siedzeń</a>
     <a href="#menu">Menu</a>
-    <a href="#plan">Plan Wesela</a>
-    <a href="#zdjecia">Udostępnij zdjęcia</a>
+    <a href="#plan">Plan wieczoru</a>
+    <a href="#zdjecia">Tu wrzuć zdjęcia z wesela!</a>
   </nav>
 
 <section id="dojazd">
@@ -294,7 +294,7 @@
 </section>
 
   <section id="seating">
-  <h2>Twoje miejsce przy stole</h2>
+  <h2>Znajdź swoje miejsce przy stole</h2>
   <input type="text" id="guestName" placeholder="Wpisz swoje imię i nazwisko">
   <div class="guest-result" id="guestResult"></div>
  <svg viewBox="0 0 900 500" class="seating-svg" id="seatingSvg">
@@ -465,7 +465,9 @@
       if (seat) {
         seat.classList.add('highlight');
         // Scroll do SVG z animacją
-        seatingSvg.scrollIntoView({ behavior: "smooth", block: "center" });
+        const yOffset = -100; // dopasuj w razie potrzeby, np. -80 lub -120
+const y = seatingSvg.getBoundingClientRect().top + window.pageYOffset + yOffset;
+window.scrollTo({ top: y, behavior: 'smooth' });
       }
     } else {
       result.textContent = name ? "Nie znaleziono na liście." : "";
