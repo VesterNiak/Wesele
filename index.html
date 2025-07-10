@@ -189,7 +189,9 @@ nav.hide {
 }
 
     header {
-      background: url('baner.jpg') no-repeat center/cover;
+        background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
       text-align: center;
       padding: 120px 20px;
       color: #fff;
@@ -718,6 +720,25 @@ menuToggle.addEventListener('click', () => {
     }, 500); // czas zgodny z transition: 0.5s
   }
 });
+</script>
+<script>
+  const header = document.querySelector('header');
+  const hour = new Date().getHours();
+
+  // Przypisz tło w zależności od godziny
+  if (hour >= 6 && hour < 12) {
+    // Rano
+    header.style.backgroundImage = "url('banerdo12.jpg')";
+  } else if (hour >= 12 && hour < 19) {
+    // Popołudnie
+    header.style.backgroundImage = "url('baner_ramen.jpg')";
+  } else if (hour >= 19 && hour < 22) {
+    // Wieczór
+    header.style.backgroundImage = "url('baner_ramen.jpg')";
+  } else {
+    // Noc
+    header.style.backgroundImage = "url('baner_noc.jpg')";
+  }
 </script>
 </body>
 </html>
